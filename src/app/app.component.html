@@ -1,0 +1,137 @@
+<div class="container-fluid">
+  Registration form
+  <form [formGroup]="registrationForm" (ngSubmit)="OnSubmit()">
+    <div class="form-group">
+      <label>Username</label
+      ><input
+        [class.is-invalid]="
+          registrationForm.controls.userName.invalid &&
+          registrationForm.controls.userName.touched
+        "
+        formControlName="userName"
+        type="text"
+        class="form-control"
+      />
+      <small
+        [class.d-none]="
+          registrationForm.controls.userName.valid ||
+          registrationForm.controls.userName.untouched
+        "
+        class="text-danger"
+        >Username is required</small
+      >
+    </div>
+
+    <div class="form-group">
+      <label>Email</label
+      ><button
+        type="button"
+        class="btn btn-secondary btn-sm m-2"
+        (click)="addAlternateEmail()"
+      >
+        ADD EMAIL</button
+      ><input
+        [class.is-invalid]="email.invalid && email.touched"
+        type="text"
+        formControlName="email"
+        class="form-control"
+      />
+      <small class="text-danger" [class.d-none]="email.valid || email.untouched"
+        >Email is required</small
+      >
+      <div
+        formArrayName="alternateEmails"
+        *ngFor="let email of alternateEmails.controls; let i = index"
+      >
+        <input type="text" class="form-control my-1" [formControlName]="i" />
+      </div>
+    </div>
+
+    <div class="form-check mb-3">
+      <input
+        class="form-check-input"
+        formControlName="subscribe"
+        type="checkbox"
+      /><label class="form-check-label">Send me promotional offers</label>
+    </div>
+    <div class="form-group">
+      <label>password</label
+      ><input
+        [class.is-invalid]="
+          registrationForm.controls.password.invalid &&
+          registrationForm.controls.password.touched
+        "
+        formControlName="password"
+        type="password"
+        class="form-control"
+      />
+      <div
+        *ngIf="
+          registrationForm.controls.password.invalid &&
+          registrationForm.controls.password.touched
+        "
+      >
+        <small
+          class="text-danger"
+          *ngIf="registrationForm.controls.password.errors?.required"
+          >Password is mandatory</small
+        >
+        <small
+          class="text-danger"
+          *ngIf="registrationForm.controls.password.errors?.forbiddenName"
+          >password cannot be passwordtrue
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="registrationForm.controls.password.errors?.minlength"
+          >Password must be 8 chars</small
+        >
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Confirm Password</label
+      ><input
+        [class.is-invalid]="registrationForm.errors?.misMatch"
+        formControlName="confirmPassword"
+        type="password"
+        class="form-control"
+      />
+      <small class="text-danger" *ngIf="registrationForm.errors?.misMatch"
+        >password do not match</small
+      >
+    </div>
+    <div formGroupName="address">
+      <div class="form-group">
+        <label>State</label
+        ><input type="text" class="form-control" formControlName="state" />
+      </div>
+
+      <div class="form-group">
+        <label>city</label
+        ><input type="text" formControlName="city" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label>Pincode</label
+        ><input type="number" formControlName="pincode" class="form-control" />
+      </div>
+    </div>
+    <hr />
+    <button
+      [disabled]="!registrationForm.valid"
+      button
+      class="btn btn-primary"
+      type="submit"
+    >
+      Register
+    </button>
+    <hr />
+    <button
+      (click)="loadApiData()"
+      class="btn btn-secondary ml-2"
+      type="button"
+    >
+      load Api datas
+    </button>
+  </form>
+  {{ registrationForm.value | json }}
+</div>
